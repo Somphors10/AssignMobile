@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instagram_clone/image_data.dart'; // Import the new file
+import 'package:instagram_clone/image_data.dart'; // Import the file containing image URLs
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -55,24 +55,48 @@ class _SearchScreenState extends State<SearchScreen> {
         mainAxisSpacing: 4,
         childAspectRatio: 1, // Makes the grid square
       ),
-      itemCount: imageUrls.length, // Number of items in the grid
+      itemCount: imageUrls.length, // Use image URLs from the imported file
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
             // Handle tap for each item, e.g., open a detailed view
-            print('Tapped on item $index');
+            print('Tapped on image $index');
           },
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(imageUrls[index]),
-                fit: BoxFit.cover, // Scale image to cover the entire item
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
+          child: ImageItem(imageUrl: imageUrls[index]),
         );
       },
+    );
+  }
+}
+
+// Custom widget to display an image
+class ImageItem extends StatelessWidget {
+  final String imageUrl;
+
+  const ImageItem({required this.imageUrl, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.network(
+          imageUrl,
+          fit: BoxFit.cover,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+          errorBuilder: (context, error, stackTrace) => const Center(
+            child: Icon(Icons.error, color: Colors.white),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -9,10 +9,8 @@ List<String> imageList = [
     "https://th.bing.com/th/id/OIP.xBbZmyEzv8yynemGfTp_JAHaEK?w=311&h=187&c=7&r=0&o=5&dpr=1.3&pid=1.7",
   ];
 
-// image_urls.dart
 
-// List of sample image URLs
-// image_data.dart
+
 const List<String> imageUrls = [
   "https://th.bing.com/th?id=OIF.c81VC00%2bNi0S3LtsSO9NKg&w=204&h=306&c=7&r=0&o=5&dpr=1.3&pid=1.7",
     "https://th.bing.com/th/id/OIP.g1_7sWZEqRywFApJZMN76gHaQD?w=161&h=350&c=7&r=0&o=5&dpr=1.3&pid=1.7",

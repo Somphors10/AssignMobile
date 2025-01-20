@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instagram_clone/image_data.dart'; // Import the file containing the image list
+import 'package:instagram_clone/image_data.dart'; // Import the file containing the user data
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,7 +20,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   AppBar _buildAppBar() {
     return AppBar(
-      title: const Text("Instagram"),
+      title: const Text(
+        "Instagram",
+        style: TextStyle(fontFamily: 'Billabong', fontSize: 32),
+      ),
       backgroundColor: Colors.black,
       foregroundColor: Colors.white,
       actions: const [
@@ -33,98 +36,137 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildBody() {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 10, // Space below the AppBar
-        bottom: 10, // Space above the BottomAppBar
-      ),
-      child: _buildMainListView(),
-    );
-  }
-
-  Widget _buildMainListView() {
-    return ListView(
+    return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
-      children: [
-        _buildStoryListView(),
-        _buildPostListView(),
-      ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildStoryListView(), // Stories section
+          const Divider(color: Colors.grey), // Divider between sections
+          _buildPostListView(), // Posts section
+        ],
+      ),
     );
   }
 
   Widget _buildStoryListView() {
-    return Container(
-      height: 100, // Height of the story container
-      margin: const EdgeInsets.symmetric(vertical: 10), // Top and bottom margins
-      child: ListView.builder(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
-        itemCount: imageList.length,
-        itemBuilder: (context, index) {
-          return Container(
-            width: 80, // Width of each story
-            margin: const EdgeInsets.only(right: 10), // Space between stories
-            child: Column(
-              children: [
-                ClipOval(
-                  child: _buildImage(imageList[index], isStory: true),
-                ),
-                const SizedBox(height: 4), // Space between story and text
-                const Text(
-                  "User", // Placeholder username
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+        child: Row(
+          children: List.generate(
+            userData.length,
+            (index) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.red,
+                        width: 3, // Story border width
+                      ),
+                    ),
+                    child: ClipOval(
+                      child: Image.network(
+                        userData[index]["image"]!,
+                        height: 70,
+                        width: 70,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    userData[index]["name"]!, // Display username from userData
+                    style: const TextStyle(color: Colors.white, fontSize: 12),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildPostListView() {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: imageList.length,
-      itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.only(bottom: 10),
+    return Column(
+      children: List.generate(
+        userData.length,
+        (index) => Container(
+          margin: const EdgeInsets.only(bottom: 16),
+          color: Colors.black,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: _buildImage(imageList[index]),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                child: Text(
-                  "Liked by User1 and others", // Placeholder like text
-                  style: TextStyle(color: Colors.white),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    ClipOval(
+                      child: Image.network(
+                        userData[index]["image"]!,
+                        height: 40,
+                        width: 40,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      userData[index]["name"]!, // Display username from userData
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Spacer(),
+                    const Icon(Icons.more_vert, color: Colors.white),
+                  ],
                 ),
               ),
+              Image.network(
+                userData[index]["image"]!,
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.favorite_border, color: Colors.white),
+                    SizedBox(width: 16),
+                    Icon(Icons.comment_outlined, color: Colors.white),
+                    SizedBox(width: 16),
+                    Icon(Icons.send_outlined, color: Colors.white),
+                    Spacer(),
+                    Icon(Icons.bookmark_border, color: Colors.white),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  "Liked by ${userData[(index + 1) % userData.length]["name"]!} and others", // Dynamic like text
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  "View all comments", // Placeholder comment text
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+              const SizedBox(height: 8),
             ],
           ),
-        );
-      },
+        ),
+      ),
     );
-  }
-
-  Widget _buildImage(String path, {bool isStory = false}) {
-    return path.startsWith('http') // Check if the path is a network URL
-        ? Image.network(
-            path,
-            fit: BoxFit.cover,
-            height: isStory ? 70 : null,
-            width: isStory ? 70 : null,
-          )
-        : Image.asset(
-            path,
-            fit: BoxFit.cover,
-            height: isStory ? 70 : null,
-            width: isStory ? 70 : null,
-          );
   }
 }

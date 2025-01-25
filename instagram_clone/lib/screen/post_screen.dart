@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/image_data.dart';
 
 class PostScreen extends StatefulWidget {
   const PostScreen({super.key});
@@ -29,7 +30,7 @@ class _PostScreenState extends State<PostScreen> {
         ),
         backgroundColor: Colors.black,
         body: ListView.builder(
-          itemCount: 5, // Example: 5 posts
+          itemCount: postImages.length, // Use the imported list of images
           itemBuilder: (context, index) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,29 +57,42 @@ class _PostScreenState extends State<PostScreen> {
                 Container(
                   height: 300,
                   width: double.infinity,
-                  color: Colors.grey[800], // Placeholder for post image
-                  child: Center(
-                    child: Icon(Icons.image, color: Colors.white, size: 100),
+                  child: Image.network(
+                    postImages[index], // Use the image URL from the imported list
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  (loadingProgress.expectedTotalBytes ?? 1)
+                              : null,
+                        ),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Center(child: Icon(Icons.error, color: Colors.white));
+                    },
                   ),
                 ),
 
                 // Action Buttons
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
                           IconButton(
-                            icon: Icon(Icons.favorite_border,
-                                color: Colors.white),
+                            icon: Icon(Icons.favorite_border, color: Colors.white),
                             onPressed: () {},
                           ),
                           IconButton(
-                            icon: Icon(Icons.chat_bubble_outline,
-                                color: Colors.white),
+                            icon: Icon(Icons.chat_bubble_outline, color: Colors.white),
                             onPressed: () {},
                           ),
                           IconButton(
@@ -88,7 +102,7 @@ class _PostScreenState extends State<PostScreen> {
                         ],
                       ),
                       IconButton(
-                        icon: Icon(Icons.bookmark_border, color: const Color.fromARGB(255, 8, 2, 2)),
+                        icon: Icon(Icons.bookmark_border, color: Color.fromARGB(255, 8, 2, 2)),
                         onPressed: () {},
                       ),
                     ],
@@ -101,16 +115,13 @@ class _PostScreenState extends State<PostScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Liked by user1 and 102 others',
-                          style: TextStyle(color: Colors.white)),
+                      Text('Liked by user1 and 102 others', style: TextStyle(color: Colors.white)),
                       SizedBox(height: 4),
                       Row(
                         children: [
                           Text(
                             'kim_zoa1997 ',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                           ),
                           Text(
                             'This is a post caption.',
@@ -121,13 +132,10 @@ class _PostScreenState extends State<PostScreen> {
                       SizedBox(height: 4),
                       GestureDetector(
                         onTap: () {},
-                        child: Text('View all 15 comments',
-                            style: TextStyle(color: Colors.white70)),
+                        child: Text('View all 15 comments', style: TextStyle(color: Colors.white70)),
                       ),
                       SizedBox(height: 4),
-                      Text('2 hours ago',
-                          style: TextStyle(
-                              color: Colors.white70, fontSize: 12)),
+                      Text('2 hours ago', style: TextStyle(color: Colors.white70, fontSize: 12)),
                     ],
                   ),
                 ),

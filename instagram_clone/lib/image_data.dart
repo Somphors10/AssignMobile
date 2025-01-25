@@ -67,3 +67,10 @@ final List<Map<String, String>> userData = [
   {"name": "Sarah", "image": "https://th.bing.com/th/id/OIP.xBbZmyEzv8yynemGfTp_JAHaEK?w=311&h=187&c=7&r=0&o=5&dpr=1.3&pid=1.7"},
 ];
 
+final List<String> postImages = [
+  "https://i.pinimg.com/736x/cd/16/29/cd16294e6954fcd42d94ecb13b40c950.jpg",
+  "https://th.bing.com/th/id/OIP.OvijQLv5rK7jzMFTSaRE0QHaE7?rs=1&pid=ImgDetMain",
+  "https://th.bing.com/th/id/OIP.xBbZmyEzv8yynemGfTp_JAHaEK?w=311&h=187&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+];
+
+

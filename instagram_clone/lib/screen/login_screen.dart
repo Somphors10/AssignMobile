@@ -14,7 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _login() {
     // Replace with your authentication logic
-    const correctUsername = 'admin';
+    const correctUsername = 'somphors';
     const correctPassword = '12345';
 
     if (_usernameController.text == correctUsername &&

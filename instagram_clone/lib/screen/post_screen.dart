@@ -30,7 +30,7 @@ class _PostScreenState extends State<PostScreen> {
         ),
         backgroundColor: Colors.black,
         body: ListView.builder(
-          itemCount: postImages.length, // Use the imported list of images
+          itemCount: postImages.length, 
           itemBuilder: (context, index) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +58,7 @@ class _PostScreenState extends State<PostScreen> {
                   height: 300,
                   width: double.infinity,
                   child: Image.network(
-                    postImages[index], // Use the image URL from the imported list
+                    postImages[index], 
                     fit: BoxFit.cover,
                     loadingBuilder: (context, child, loadingProgress) {
                       if (loadingProgress == null) {

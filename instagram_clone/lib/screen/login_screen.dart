@@ -13,7 +13,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   void _login() {
-    // Replace with your authentication logic
     const correctUsername = 'somphors';
     const correctPassword = '12345';
 

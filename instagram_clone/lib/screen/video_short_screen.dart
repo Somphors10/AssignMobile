@@ -1,29 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/image_data.dart'; // Import image links
 
 class VideoShortScreen extends StatefulWidget {
   const VideoShortScreen({super.key});
 
   @override
-  State<VideoShortScreen> createState() => _VideoShortScreenState();
+  State<VideoShortScreen> createState() => _ImageShortScreenState();
 }
 
-class _VideoShortScreenState extends State<VideoShortScreen> {
-  final List<String> _videoThumbnails = [
-    'https://via.placeholder.com/480x800.png?text=Video+1',
-    'https://via.placeholder.com/480x800.png?text=Video+2',
-    'https://via.placeholder.com/480x800.png?text=Video+3',
-    'https://via.placeholder.com/480x800.png?text=Video+4',
-    'https://via.placeholder.com/480x800.png?text=Video+5',
-  ];
-
-  final List<String> _profilePictures = [
-    'https://via.placeholder.com/150.png?text=User+1',
-    'https://via.placeholder.com/150.png?text=User+2',
-    'https://via.placeholder.com/150.png?text=User+3',
-    'https://via.placeholder.com/150.png?text=User+4',
-    'https://via.placeholder.com/150.png?text=User+5',
-  ];
-
+class _ImageShortScreenState extends State<VideoShortScreen> {
   int _currentIndex = 0;
 
   void _onPageChanged(int index) {
@@ -39,13 +24,13 @@ class _VideoShortScreenState extends State<VideoShortScreen> {
       body: PageView.builder(
         scrollDirection: Axis.vertical,
         onPageChanged: _onPageChanged,
-        itemCount: _videoThumbnails.length,
+        itemCount: imageUrl.length,
         itemBuilder: (context, index) {
           return Stack(
             children: [
-              // Video Placeholder
+              // Image Display
               Image.network(
-                _videoThumbnails[index],
+                imageUrl[index],
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,
@@ -70,7 +55,7 @@ class _VideoShortScreenState extends State<VideoShortScreen> {
             children: [
               CircleAvatar(
                 radius: 20,
-                backgroundImage: NetworkImage(_profilePictures[index]),
+                backgroundImage: NetworkImage(profilePictures[index]),
               ),
               const SizedBox(width: 10),
               Text(
@@ -84,7 +69,7 @@ class _VideoShortScreenState extends State<VideoShortScreen> {
           ),
           const SizedBox(height: 5),
           Text(
-            'This is a description for video ${index + 1}',
+            'This is a description for image ${index + 1}',
             style: const TextStyle(color: Colors.white),
           ),
         ],
